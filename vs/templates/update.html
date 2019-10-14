@@ -1,0 +1,11 @@
+{% extends 'base.html' %}
+
+{% block body %}
+  <form action="" method="POST">
+    {% csrf_token %}
+    질문 : <input type="text" name="question" value="{{question.question}}">
+    답변1 : <input type="text" name="answer1" value="{{question.answer1}}">
+    답변2 : <input type="text" name="answer2" value="{{question.answer2}}">
+    <input type="submit">
+  </form>
+{% endblock %}

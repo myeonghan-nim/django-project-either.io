@@ -1,0 +1,30 @@
+{% extends 'base.html' %}
+
+{% block body %}
+  <div class="jumbotron m-5">
+    <h1 class="display-4">{{question.question}}</h1>
+    <hr class="my-4">
+    
+    <p>{{question.answer1}} : {{p1}}, {{p1_per}}%</p>
+    <p>{{question.answer2}} : {{p2}}, {{p2_per}}%</p>
+    
+    {% for choice in choices %}
+      {% if choice.question_id == question.id %}
+        <div class="alert alert-info d-flex justify-content-between" role="alert">
+          {% if choice.comment == 'None' %}
+            Lorem ipsum dolor sit amet.
+          {% else %}
+            {{choice.comment}}
+          {% endif %}
+          <div>
+            <a class="btn btn-outline-dark" href="{% url 'vs:choice-delete' question.id choice.id %}" role="button">삭제</a>
+          </div>
+        </div>
+      {% endif %}
+    {% endfor %}
+
+    <a class="btn btn-primary btn-lg" href="{% url 'vs:index' %}" role="button">돌아가기</a>
+    <a class="btn btn-warning btn-lg" href="{% url 'vs:update' question.id %}">수정</a>
+    <a class="btn btn-danger btn-lg" href="{% url 'vs:delete' question.id %}">삭제</a>
+  </div>
+{% endblock %}
