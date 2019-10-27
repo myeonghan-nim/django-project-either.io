@@ -13,25 +13,25 @@ def caculate(arr, id):
     for a in arr:
         if a.question_id == id:
             result.append(a)
+
             if a.pick == 1:
                 p1 += 1
+
             else:
                 p2 += 1
 
     if p1 + p2 != 0:
-
         p1_per = round(p1 * 100 / (p1 + p2), 2)
         p2_per = round(p2 * 100 / (p1 + p2), 2)
 
     else:
-
         p1_per = 0
         p2_per = 0
     
     return (p1, p2, p1_per, p2_per, result)
 
-def index(request):
 
+def index(request):
     question = Question.objects.all()
 
     context = {
@@ -40,15 +40,14 @@ def index(request):
 
     return render(request, 'index.html', context)
 
-def lucky(request):
 
+def lucky(request):
     total = Question.objects.all()
 
     q_id = random.randrange(0, len(total))
     question = total[q_id]
 
     choices = Choice.objects.all()
-
     p1, p2, p1_per, p2_per, result = caculate(choices, question.id)
 
     context = {
@@ -64,9 +63,7 @@ def lucky(request):
 
 
 def create(request):
-
     if request.method == 'POST':
-
         question = request.POST.get('question')
         answer1 = request.POST.get('answer1')
         answer2 = request.POST.get('answer2')
@@ -74,17 +71,15 @@ def create(request):
         Question.objects.create(question=question, answer1=answer1, answer2=answer2)
 
         return redirect('vs:index')
-
     else:
 
         return render(request, 'create.html')
 
-def update(request, id):
 
+def update(request, id):
     question = Question.objects.get(id=id)
 
     if request.method == 'POST':
-
         question.question = request.POST.get('question')
         question.answer1 = request.POST.get('answer1')
         question.answer2 = request.POST.get('answer2')
@@ -101,27 +96,24 @@ def update(request, id):
 
         return render(request, 'update.html', context)
 
-def delete(request, id):
 
+def delete(request, id):
     question = Question.objects.get(id=id)
     question.delete()
 
     return redirect('vs:index')
 
+
 def choice(request, id, select):
-
     question = Question.objects.get(id=id)
-
     Choice.objects.create(pick=select, comment='None', question=question)
 
     return redirect('vs:detail', id)
 
+
 def detail(request, id):
-
     question = Question.objects.get(id=id)
-
     choices = Choice.objects.all()
-
     p1, p2, p1_per, p2_per, result = caculate(choices, id)
 
     context = {
@@ -136,8 +128,8 @@ def detail(request, id):
 
     return render(request, 'detail.html', context)
 
-def choice_delete(request, q_id, c_id):
 
+def choice_delete(request, q_id, c_id):
     Choice.objects.get(id=c_id).delete()
 
     return redirect('vs:detail', q_id)
