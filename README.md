@@ -1,3 +1,3 @@
-# Either.io
+# README
 
 - choose A or B! 🕵️‍♂️
