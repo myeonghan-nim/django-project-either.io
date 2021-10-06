@@ -1,20 +1,28 @@
 {% extends 'base.html' %}
 
 {% block body %}
+
   <form action="" method="POST" class="m-5">
+
     {% csrf_token %}
+
     <div class="form-group">
       <label for="question">Question name</label>
       <input type="text" name="question" class="form-control" placeholder="Enter question">
     </div>
+
     <div class="form-group">
       <label for="answer1">Answer 1</label>
       <input type="text" name="answer1" class="form-control" placeholder="Enter answer">
     </div>
+
     <div class="form-group">
         <label for="answer2">Answer 2</label>
         <input type="text" name="answer2" class="form-control" placeholder="Enter answer">
     </div>
+
     <button type="submit" class="btn btn-primary">Submit</button>
+
   </form>
+
 {% endblock %}
