@@ -1,35 +1,58 @@
 {% extends 'base.html' %}
 
 {% block body %}
-
   <div class="jumbotron m-5">
-
     <h1 class="display-4">{{question.question}}</h1>
-
-    <hr class="my-4">
-
-    <p>{{question.answer1}} : {{p1}}, {{p1_per}}%</p>
-    <p>{{question.answer2}} : {{p2}}, {{p2_per}}%</p>
-
+    <hr class="my-4" />
+    <div class="d-flex justify-content-around">
+      <p class="my-3">{{question.answer1}}: {{choice1}}, {{percent1}}%</p>
+      <p class="my-3">{{question.answer2}}: {{choice2}}, {{percent2}}%</p>
+    </div>
+    <hr class="my-4" />
     {% for choice in choices %}
-      {% if choice.question_id == question.id %}
+      {% if choice.pick == 1 %}
         <div class="alert alert-info d-flex justify-content-between" role="alert">
-          {% if choice.comment == 'None' %}
-            Lorem ipsum dolor sit amet.
-          {% else %}
-            {{choice.comment}}
-          {% endif %}
+          {{choice.comment}}
           <div>
-            <a class="btn btn-outline-dark" href="{% url 'question:choice-delete' question.id choice.id %}" role="button">Delete</a>
+            <a
+              class="btn btn-outline-info"
+              href="{% url 'question:delete_choice' question.id choice.id %}"
+              role="button"
+              >Delete</a
+            >
+          </div>
+        </div>
+      {% else %}
+        <div class="alert alert-danger d-flex justify-content-between" role="alert">
+          {{choice.comment}}
+          <div>
+            <a
+              class="btn btn-outline-danger"
+              href="{% url 'question:delete_choice' question.id choice.id %}"
+              role="button"
+              >Delete</a
+            >
           </div>
         </div>
       {% endif %}
     {% endfor %}
-
-    <a class="btn btn-primary btn-lg" href="{% url 'question:index' %}" role="button">Go Home</a>
-    <a class="btn btn-warning btn-lg" href="{% url 'question:update' question.id %}">Edit</a>
-    <a class="btn btn-danger btn-lg" href="{% url 'question:delete' question.id %}">Delete</a>
-
+    <div class="d-flex justify-content-end">
+      <a
+        class="btn btn-primary btn-lg mr-1"
+        href="{% url 'question:index' %}"
+        role="button"
+        >Home</a
+      >
+      <a
+        class="btn btn-warning btn-lg mr-1"
+        href="{% url 'question:update' question.id %}"
+        >Edit</a
+      >
+      <a
+        class="btn btn-danger btn-lg mr-1"
+        href="{% url 'question:delete' question.id %}"
+        >Delete</a
+      >
+    </div>
   </div>
-
 {% endblock %}
