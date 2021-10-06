@@ -1,7 +1,7 @@
 from django.urls import path
 from . import views
 
-app_name = 'vs'
+app_name = 'question'
 
 urlpatterns = [
     path('', views.index, name='index'),
@@ -15,6 +15,7 @@ urlpatterns = [
     path('<int:id>/delete/', views.delete, name='delete'),
 
     path('<int:id>/choice/<int:select>/', views.choice, name='choice'),
-    
-    path('<int:q_id>/<int:c_id>/choice-delete/', views.choice_delete, name='choice-delete'),
+
+    path('<int:q_id>/<int:c_id>/choice-delete/',
+         views.choice_delete, name='choice-delete'),
 ]

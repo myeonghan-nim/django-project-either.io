@@ -7,10 +7,10 @@
     <h1 class="display-4">{{question.question}}</h1>
 
     <hr class="my-4">
-    
+
     <p>{{question.answer1}} : {{p1}}, {{p1_per}}%</p>
     <p>{{question.answer2}} : {{p2}}, {{p2_per}}%</p>
-    
+
     {% for choice in choices %}
       {% if choice.question_id == question.id %}
         <div class="alert alert-info d-flex justify-content-between" role="alert">
@@ -20,16 +20,16 @@
             {{choice.comment}}
           {% endif %}
           <div>
-            <a class="btn btn-outline-dark" href="{% url 'vs:choice-delete' question.id choice.id %}" role="button">Delete</a>
+            <a class="btn btn-outline-dark" href="{% url 'question:choice-delete' question.id choice.id %}" role="button">Delete</a>
           </div>
         </div>
       {% endif %}
     {% endfor %}
 
-    <a class="btn btn-primary btn-lg" href="{% url 'vs:index' %}" role="button">Go Home</a>
-    <a class="btn btn-warning btn-lg" href="{% url 'vs:update' question.id %}">Edit</a>
-    <a class="btn btn-danger btn-lg" href="{% url 'vs:delete' question.id %}">Delete</a>
-    
+    <a class="btn btn-primary btn-lg" href="{% url 'question:index' %}" role="button">Go Home</a>
+    <a class="btn btn-warning btn-lg" href="{% url 'question:update' question.id %}">Edit</a>
+    <a class="btn btn-danger btn-lg" href="{% url 'question:delete' question.id %}">Delete</a>
+
   </div>
 
 {% endblock %}
