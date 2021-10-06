@@ -1,145 +1,86 @@
-from django.shortcuts import render, redirect
-from .models import Question, Choice
-
 import random
 
-# Create your views here.
+from django.shortcuts import render, redirect
+
+from .models import Question, Choice
 
 
-def caculate(arr, id):
+def caculate(choices, question_id):
+    choice1 = len(choices.filter(pick=1))
+    choice2 = len(choices.filter(pick=2))
 
-    p1, p2 = 0, 0
-    result = []
-
-    for a in arr:
-        if a.question_id == id:
-            result.append(a)
-
-            if a.pick == 1:
-                p1 += 1
-            else:
-                p2 += 1
-
-    if p1 + p2 != 0:
-        p1_per = round(p1 * 100 / (p1 + p2), 2)
-        p2_per = round(p2 * 100 / (p1 + p2), 2)
-
+    if not (choice1 + choice2):
+        percent1 = percent2 = 0
     else:
-        p1_per, p2_per = 0, 0
+        percent1 = round(choice1 * 100 / (choice1 + choice2), 2)
+        percent2 = round(choice2 * 100 / (choice1 + choice2), 2)
 
-    return (p1, p2, p1_per, p2_per, result)
+    return choice1, choice2, percent1, percent2
 
 
 def index(request):
-
-    question = Question.objects.all()
-
     context = {
-        'question': question,
+        'questions': Question.objects.all(),
     }
-
     return render(request, 'index.html', context)
 
 
-def lucky(request):
-
-    total = Question.objects.all()
-
-    q_id = random.randrange(0, len(total))
-    question = total[q_id]
-
-    choices = Choice.objects.all()
-
-    p1, p2, p1_per, p2_per, result = caculate(choices, question.id)
-
-    context = {
-        'question': question,
-        'p1': p1,
-        'p2': p2,
-        'p1_per': p1_per,
-        'p2_per': p2_per,
-        'result': result,
-    }
-
-    return render(request, 'lucky.html', context)
-
-
 def create(request):
-
     if request.method == 'POST':
-
-        question = request.POST.get('question')
-        answer1 = request.POST.get('answer1')
-        answer2 = request.POST.get('answer2')
-
         Question.objects.create(
-            question=question, answer1=answer1, answer2=answer2)
-
+            question=request.POST.get('question'),
+            answer1=request.POST.get('answer1'),
+            answer2=request.POST.get('answer2'),
+        )
         return redirect('question:index')
     else:
         return render(request, 'create.html')
 
 
-def update(request, id):
-
-    question = Question.objects.get(id=id)
-
+def update(request, question_id):
+    question = Question.objects.get(id=question_id)
     if request.method == 'POST':
-
         question.question = request.POST.get('question')
         question.answer1 = request.POST.get('answer1')
         question.answer2 = request.POST.get('answer2')
-
         question.save()
-
         return redirect('question:index')
     else:
-
         context = {
             'question': question,
         }
-
         return render(request, 'update.html', context)
 
 
-def delete(request, id):
-
-    question = Question.objects.get(id=id)
-    question.delete()
-
+def delete(request, question_id):
+    Question.objects.get(id=question_id).delete()
     return redirect('question:index')
 
 
-def choice(request, id, select):
+def create_choice(request, question_id, select):
+    Choice.objects.create(
+        pick=select,
+        comment=random.choice(['a', 'b', 'c', 'd', 'e']),
+        question=Question.objects.get(id=question_id)
+    )
+    return redirect('question:detail', question_id)
 
-    question = Question.objects.get(id=id)
-    Choice.objects.create(pick=select, comment='None', question=question)
 
-    return redirect('question:detail', id)
+def delete_choice(request, question_id, choice_id):
+    Choice.objects.get(id=choice_id).delete()
+    return redirect('question:detail', question_id)
 
 
-def detail(request, id):
+def detail(request, question_id):
+    question = Question.objects.get(id=question_id)
+    choices = Choice.objects.filter(question=question)
 
-    question = Question.objects.get(id=id)
-    choices = Choice.objects.all()
-
-    p1, p2, p1_per, p2_per, result = caculate(choices, id)
+    choice1, choice2, percent1, percent2 = caculate(choices, question_id)
 
     context = {
-        'question': question,
-        'p1': p1,
-        'p2': p2,
-        'p1_per': p1_per,
-        'p2_per': p2_per,
-        'result': result,
-        'choices': choices,
+        'question': question, 'choices': choices,
+        'choice1': choice1, 'choice2': choice2,
+        'percent1': percent1, 'percent2': percent2,
     }
 
     return render(request, 'detail.html', context)
-
-
-def choice_delete(request, q_id, c_id):
-
-    Choice.objects.get(id=c_id).delete()
-
-    return redirect('question:detail', q_id)
