@@ -2,17 +2,18 @@
 
 {% block body %}
   {% for q in question%}
-  <div class="jumbotron m-5">
-    <h1 class="display-4">
-      <a href="{% url 'vs:detail' q.id %}" class="text-decoration-none text-secondary">
-        {{q.question}}
-      </a>
-    </h1>
-    <hr class="my-4">
-    <div class="d-flex justify-content-between">
-      <a class="btn btn-primary w-50" href="{% url 'vs:choice' q.id 1 %}" role="button">{{q.answer1}}</a>
-      <a class="btn btn-danger w-50" href="{% url 'vs:choice' q.id 2 %}" role="button">{{q.answer2}}</a>
+    <div class="jumbotron m-5">
+      <h1 class="display-4">
+        <a href="{% url 'vs:detail' q.id %}" class="text-decoration-none text-secondary">
+          {{q.question}}
+        </a>
+      </h1>
+      <hr class="my-4">
+      <div class="d-flex justify-content-between">
+        <a class="btn btn-primary w-50" href="{% url 'vs:choice' q.id 1 %}" role="button">{{q.answer1}}</a>
+        <a class="btn btn-danger w-50" href="{% url 'vs:choice' q.id 2 %}" role="button">{{q.answer2}}</a>
+      </div>
     </div>
-  </div>
   {% endfor %}
+  
 {% endblock %}

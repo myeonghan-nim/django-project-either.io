@@ -17,14 +17,14 @@
             {{choice.comment}}
           {% endif %}
           <div>
-            <a class="btn btn-outline-dark" href="{% url 'vs:choice-delete' question.id choice.id %}" role="button">삭제</a>
+            <a class="btn btn-outline-dark" href="{% url 'vs:choice-delete' question.id choice.id %}" role="button">Delete</a>
           </div>
         </div>
       {% endif %}
     {% endfor %}
 
-    <a class="btn btn-primary btn-lg" href="{% url 'vs:index' %}" role="button">돌아가기</a>
-    <a class="btn btn-warning btn-lg" href="{% url 'vs:update' question.id %}">수정</a>
-    <a class="btn btn-danger btn-lg" href="{% url 'vs:delete' question.id %}">삭제</a>
+    <a class="btn btn-primary btn-lg" href="{% url 'vs:index' %}" role="button">Go home</a>
+    <a class="btn btn-warning btn-lg" href="{% url 'vs:update' question.id %}">Edit</a>
+    <a class="btn btn-danger btn-lg" href="{% url 'vs:delete' question.id %}">Delete</a>
   </div>
 {% endblock %}
