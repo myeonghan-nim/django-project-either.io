@@ -1,3 +1,3 @@
-# README
+# Clone Project: either.io
 
-- choose A or B! 🕵️‍♂️
+## Choose A or B
