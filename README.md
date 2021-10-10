@@ -1,3 +1,3 @@
-# Clone Project: either.io
+# Project: either.io
 
 ## Choose A or B
