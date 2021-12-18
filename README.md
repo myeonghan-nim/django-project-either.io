@@ -1,3 +1,3 @@
 # Project: either.io
 
-## Choose A or B
+> Choose A or B
