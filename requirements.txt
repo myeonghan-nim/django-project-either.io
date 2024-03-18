@@ -1,4 +1,4 @@
 autopep8==1.5.7
-Django==3.2.23
+Django==3.2.25
 pipdeptree==2.1.0
 setuptools==65.5.1
